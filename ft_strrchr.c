@@ -14,20 +14,17 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	char	*found;
-	int		i;
+	const char		*temps = s;
+	const char		srch = c;
+	char			*last;
 
-	i = 0;
-	found = NULL;
-	while (s[i] && c != '\0')
+	last = NULL;
+	while (1)
 	{
-		if ((unsigned char)s[i] == (unsigned char)c)
-		{
-			found = (char *)&s[i];
-		}
-		i++;
+		if (*temps == srch)
+			last = (char *)temps;
+		if (*temps == '\0')
+			return (last);
+		temps++;
 	}
-	if (c == '\0')
-		return ((char *)&s[ft_strlen(s)]);
-	return (found);
 }

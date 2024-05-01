@@ -12,39 +12,19 @@
 
 #include "libft.h"
 
-int	ft_foundin(char c, const char *set)
+char	*ft_strtrim(char const *src, char const *del)
 {
-	int	i;
+	size_t	t_src;
+	char	*ret;
 
-	i = 0;
-	while (set[i])
-	{
-		if (c == set[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	*ft_strtrim(const char *src, const char *set)
-{
-	char	*res;
-	size_t	todelbeg;
-	size_t	size;
-
-	todelbeg = 0;
-	size = ft_strlen(src) - 1;
-	if (!src)
+	while (*src && ft_strchr(del, *src))
+		src++;
+	t_src = ft_strlen(src);
+	while (t_src && ft_strchr(del, src[t_src - 1]))
+		t_src--;
+	ret = malloc(sizeof(char) * (t_src + 1));
+	if (!ret)
 		return (NULL);
-	else if (!set)
-		return (ft_strdup(""));
-	while (ft_foundin(src[todelbeg], set))
-		todelbeg++;
-	while (ft_foundin(src[size], set))
-		size--;
-	if (todelbeg > size)
-		return (ft_strdup(""));
-	size++;
-	res = ft_substr(src, todelbeg, size - todelbeg);
-	return (res);
+	ft_strlcpy(ret, src, t_src + 1);
+	return (ret);
 }

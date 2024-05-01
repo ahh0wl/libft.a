@@ -12,51 +12,50 @@
 
 #include "libft.h"
 
-int	nlen(int n)
+int	rep_len(int num)
 {
-	int	pos;
-	int	nbr;
+	int	len;
 
-	nbr = n;
-	pos = 0;
-	if (nbr <= 0)
+	len = 0;
+	if (num < 0)
 	{
-		pos++;
-		nbr *= -1;
+		num /= -10;
+		len += 2;
 	}
-	while (nbr != 0)
+	else if (num == 0)
+		len = 1;
+	while (num)
 	{
-		nbr /= 10;
-		pos++;
+		num /= 10;
+		len++;
 	}
-	return (pos);
+	return (len);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*res;
-	int		nbr;
-	int		pos;
+	int				pos;
+	unsigned int	str_nbr;
+	char			*res;
 
-	if (n == -2147483648)
-		return ("-2147483648");
-	pos = nlen(n);
-	res = (char *)malloc((pos + 1) * sizeof(char));
+	pos = rep_len(n);
+	res = malloc(sizeof(char) * pos + 1);
 	if (!res)
 		return (NULL);
-	res[pos] = '\0';
-	nbr = n;
-	if (nbr < 0)
+	res[pos--] = '\0';
+	if (n < 0)
 	{
 		res[0] = '-';
-		nbr *= -1;
+		str_nbr = n * -1;
 	}
-	while (pos > 0)
+	else
+		str_nbr = n;
+	if (str_nbr == 0)
+		res[0] = '0';
+	while (str_nbr)
 	{
-		pos--;
-		if (res[pos] != '-')
-			res[pos] = (nbr % 10) + '0';
-		nbr = nbr / 10;
+		res[pos--] = str_nbr % 10 + '0';
+		str_nbr /= 10;
 	}
 	return (res);
 }
